@@ -2,7 +2,7 @@
 
 Proyecto Trabajo Grupal - Backend Curso CaC - Grupo 2
 
-## Descripción :package:
+## Descripción :notebook_with_decorative_cover:
 
 Proyecto BackEnd creado para el Curso FullStack JS/Node.js de Codo a Codo
 1er semestre de 2024
