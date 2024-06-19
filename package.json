@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "nodemon server.js",
     "watch": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -21,8 +21,10 @@
   "author": "Grupo 2 - CaC",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "mysql2": "^3.10.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
