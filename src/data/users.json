@@ -1,0 +1,64 @@
+{
+    "users": [
+        {
+            "id": "1",
+            "name": "Nombre",
+            "lastname": "Apellido",
+            "email": "user1_email@website.com",
+            "rol": "Editor",
+            "fechanac": 1310654350393,
+            "phone": 222999002,
+            "username": "username",
+            "password": "lapassword",
+            "address": "Su casita"
+        },
+        {
+            "id": "2",
+            "name": "Nombre",
+            "lastname": "Apellido",
+            "email": "user1_email@website.com",
+            "rol": "Editor",
+            "date": 1310654350393,
+            "phone": 222999002,
+            "username": "username",
+            "password": "lapassword",
+            "address": "Su casita"
+        },
+        {
+            "id": "3",
+            "name": "Nombre",
+            "lastname": "Apellido",
+            "email": "user1_email@website.com",
+            "rol": "Editor",
+            "date": 1310654350393,
+            "phone": 222999002,
+            "username": "username",
+            "password": "lapassword",
+            "address": "Su casita"
+        },
+        {
+            "id": "4",
+            "name": "Nombre",
+            "lastname": "Apellido",
+            "email": "user1_email@website.com",
+            "rol": "Editor",
+            "date": 1310654350393,
+            "phone": 222999002,
+            "username": "username",
+            "password": "lapassword",
+            "address": "Su casita"
+        },
+        {
+            "id": "5",
+            "name": "Nombre",
+            "lastname": "Apellido",
+            "email": "user1_email@website.com",
+            "rol": "Editor",
+            "date": 1310654350393,
+            "phone": 222999002,
+            "username": "username",
+            "password": "lapassword",
+            "address": "Su casita"
+        }
+    ]
+}
