@@ -1,43 +1,40 @@
 const db = require("../db/db.config");
 
+// Traer todos los productos
 const index = (req, res) => {
-  //traer todos los usuarios
   const sql = "SELECT * FROM usuarios";
-
-  db.query(sql, (error, filas) => {
+  db.query(sql, (error, result) => {
     if (error) {
       return res
         .status(500)
-        .json({ error: "Error en servidor - Intente mas tarde" });
+        .json({ error: "Error de servidor - Pruebe más tarde" });
     }
-
-    res.json(filas);
+    res.json(result);
   });
 };
 
+// Traer un producto por ID
 const show = (req, res) => {
   const { id } = req.params;
 
-  const sql = "SELECT * FROM usuarios WHERE id = ?";
-  db.query(sql, [id], (error, filas) => {
+  const sql = "SELECT * FROM usuarios WHERE idusuario = ?";
+  db.query(sql, [id], (error, fila) => {
     if (error) {
       return res
         .status(500)
-        .json({ error: "Error de servidor - Intente mas tarde" });
+        .json({ error: "Error de servidor - Pruebe más tarde" });
     }
-
-    if (filas.length == 0) {
-      return res.status(404).json({ error: "No existe el usuario" });
+    if (fila.length == 0) {
+      return res.status(404).json({ error: "El usuario no existe." });
     }
-
-    res.json(filas[0]);
+    res.json(fila[0]);
   });
 };
 
+// Agregar un nuevo producto
 const store = (req, res) => {
   const { nombre, apellido, email, telefono, direccion, username, pass, rol } =
     req.body;
-
   const sql =
     "INSERT INTO usuarios (nombre, apellido, email, telefono, direccion, username, pass, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   db.query(
@@ -47,23 +44,21 @@ const store = (req, res) => {
       if (error) {
         return res
           .status(500)
-          .json({ error: "Error de servidor - Intente mas tarde" });
+          .json({ error: "Error de servidor - Pruebe más tarde" });
       }
-
-      const user = { ...req.body, id: result.insertId };
-
+      const user = { ...req.body, idusuario: result.insertId };
       res.json(user);
     }
   );
 };
 
+// Actualizar un producto por ID
 const update = (req, res) => {
   const { id } = req.params;
   const { nombre, apellido, email, telefono, direccion, username, pass, rol } =
     req.body;
-
   const sql =
-    "UPDATE productos SET nombre = ?, apellido = ? , email = ?, telefono = ?, direccion = ?, username = ?, pass = ?, rol =? WHERE id = ?";
+    "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, telefono = ?, direccion = ?, username = ?, pass = ?, rol = ? WHERE idusuario = ?";
   db.query(
     sql,
     [nombre, apellido, email, telefono, direccion, username, pass, rol, id],
@@ -71,36 +66,31 @@ const update = (req, res) => {
       if (error) {
         return res
           .status(500)
-          .json({ error: "Error de servidor - Intente mas tarde" });
+          .json({ error: "Error de servidor - Pruebe más tarde" });
       }
-
       if (result.affectedRows == 0) {
-        return res.status(404).json({ error: "No existe el usuario" });
+        return res.status(404).json({ error: "Usuario no existe." });
       }
-
-      const user = { ...req.body, ...req.params };
-
+      const user = { ...req.body, idusuario: id };
       res.json(user);
     }
   );
 };
 
+// Eliminar un producto por ID
 const destroy = (req, res) => {
   const { id } = req.params;
-
-  const sql = "DELETE FROM usuarios WHERE id = ?";
+  const sql = "DELETE FROM usuarios WHERE idusuario = ?";
   db.query(sql, [id], (error, result) => {
     if (error) {
       return res
         .status(500)
-        .json({ error: "Error de servidor - Intente mas tarde" });
+        .json({ error: "Error de servidor - Pruebe más tarde" });
     }
-
     if (result.affectedRows == 0) {
-      return res.status(404).json({ error: "No existe el usuario" });
+      return res.status(404).json({ error: "El usuario no existe." });
     }
-
-    res.json({ mensaje: `Usuario ${id} eliminado` });
+    res.json({ mensaje: `Usuario con id: ${id} eliminado` });
   });
 };
 
