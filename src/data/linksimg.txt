@@ -25,3 +25,16 @@ https://i.postimg.cc/TwKy59kD/8.jpg
 https://i.postimg.cc/ZYyBTwvk/9.jpg
 https://i.postimg.cc/52PN5zQq/slide1.jpg
 https://i.postimg.cc/3wdrtwgM/slide2.jpg
+
+
+nombre, apellido, email, telefono, direccion, username, pass, rol
+,{
+    "nombre": "Nombre",
+    "apellido": "Apellido",
+    "email": "user1_email@website.com",
+    "telefono": 88899989,
+    "direccion": "Su casita",
+    "username": "username",
+    "pass": "lapassword",
+    "rol": "2"
+}
