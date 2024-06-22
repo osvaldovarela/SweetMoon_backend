@@ -1,4 +1,4 @@
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
@@ -26,11 +26,11 @@ app.use("/productos", productRouter);
 app.use("/usuarios", userRouter);
 
 app.get("/", (req, res) => {
-  res.send("Tienda SweetMoon");
+  res.send("Bienvenida/o a Tienda SweetMoon!!");
 });
 
 const PORT = process.env.PORT || 8081;
 
 app.listen(PORT, () =>
-  console.log(`Servidor escuchando en http://localhost:${PORT}`)
+  console.log(`Servidor escuchando en http://127.0.0.1:${PORT}`)
 );
