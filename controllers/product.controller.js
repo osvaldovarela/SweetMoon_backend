@@ -2,7 +2,7 @@ const db = require("../db/db.config");
 
 // Traer todos los productos
 const index = (req, res) => {
-  const sql = "SELECT * FROM productos";
+  const sql = "SELECT * FROM producto";
   db.query(sql, (error, result) => {
     if (error) {
       return res
@@ -16,8 +16,7 @@ const index = (req, res) => {
 // Traer un producto por ID
 const show = (req, res) => {
   const { id } = req.params;
-
-  const sql = "SELECT * FROM productos WHERE idproducto = ?";
+  const sql = "SELECT * FROM producto WHERE id = ?";
   db.query(sql, [id], (error, fila) => {
     if (error) {
       return res
@@ -33,19 +32,19 @@ const show = (req, res) => {
 
 // Agregar un nuevo producto
 const store = (req, res) => {
-  const { nombre, descripcion, precio, categoria, urlfoto } = req.body;
+  const { nombre, precio, stock, categoria_id, urlfoto } = req.body;
   const sql =
-    "INSERT INTO productos (nombre, descripcion, precio, categoria, urlfoto) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO producto (nombre, precio, stock, categoria_id, urlfoto) VALUES (?, ?, ?, ?, ?)";
   db.query(
     sql,
-    [nombre, descripcion, precio, categoria, urlfoto],
+    [nombre, precio, stock, categoria_id, urlfoto],
     (error, result) => {
       if (error) {
         return res
           .status(500)
           .json({ error: "Error de servidor - Pruebe más tarde" });
       }
-      const producto = { ...req.body, idproducto: result.insertId };
+      const producto = { ...req.body, id: result.insertId };
       res.json(producto);
     }
   );
@@ -54,12 +53,12 @@ const store = (req, res) => {
 // Actualizar un producto por ID
 const update = (req, res) => {
   const { id } = req.params;
-  const { nombre, descripcion, precio, categoria, urlfoto } = req.body;
+  const { nombre, precio, stock, categoria_id, urlfoto } = req.body;
   const sql =
-    "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, categoria = ?, urlfoto = ? WHERE idproducto = ?";
+    "UPDATE producto SET nombre = ?, precio = ?, stock =?, categoria_id = ?, urlfoto = ? WHERE id = ?";
   db.query(
     sql,
-    [nombre, descripcion, precio, categoria, urlfoto, id],
+    [nombre, precio, stock, categoria_id, urlfoto, id],
     (error, result) => {
       if (error) {
         return res
@@ -69,7 +68,7 @@ const update = (req, res) => {
       if (result.affectedRows == 0) {
         return res.status(404).json({ error: "Producto inexistente." });
       }
-      const producto = { ...req.body, idproducto: id };
+      const producto = { ...req.body, id: id };
       res.json(producto);
     }
   );
@@ -78,7 +77,7 @@ const update = (req, res) => {
 // Eliminar un producto por ID
 const destroy = (req, res) => {
   const { id } = req.params;
-  const sql = "DELETE FROM productos WHERE idproducto = ?";
+  const sql = "DELETE FROM producto WHERE id = ?";
   db.query(sql, [id], (error, result) => {
     if (error) {
       return res
