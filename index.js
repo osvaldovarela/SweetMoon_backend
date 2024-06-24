@@ -6,12 +6,13 @@ const app = express();
 
 app.disable("x-powered-bi");
 const bodyParser = require("body-parser");
+
 const productRouter = require("./routes/products.router");
 const userRouter = require("./routes/users.router");
 
 // Middleware para parsear el cuerpo de las peticiones
 const corsOptions = {
-  origin: "http://127.0.0.1:5500", // URL del frontend que permites (puedes usar * para permitir cualquier origen)
+  origin: "https://osvaldovarela.github.io/tienda_SweetMoon/", // URL del frontend que permites (puedes usar * para permitir cualquier origen)
   methods: ["GET", "POST", "PUT", "DELETE"], // Métodos HTTP permitidos
   allowedHeaders: ["Content-Type", "Authorization"], // Encabezados permitidos
 };
@@ -21,7 +22,6 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Usar el router de productos
 app.use("/productos", productRouter);
 app.use("/usuarios", userRouter);
 
