@@ -55,7 +55,7 @@ const update = (req, res) => {
   const { id } = req.params;
   const { nombre, precio, stock, categoria_id, urlfoto } = req.body;
   const sql =
-    "UPDATE producto SET nombre = ?, precio = ?, stock =?, categoria_id = ?, urlfoto = ? WHERE id = ?";
+    "UPDATE producto SET nombre = ?, precio = ?, stock = ?, categoria_id = ?, urlfoto = ? WHERE id = ?";
   db.query(
     sql,
     [nombre, precio, stock, categoria_id, urlfoto, id],
