@@ -3,7 +3,7 @@
 Proyecto Trabajo Grupal - Backend Curso CaC - Grupo 2
 
 ## Descripción :notebook_with_decorative_cover:
-***
+
 
 Proyecto BackEnd creado para el Curso FullStack JS/Node.js de Codo a Codo
 1er semestre de 2024
@@ -11,12 +11,12 @@ Proyecto BackEnd creado para el Curso FullStack JS/Node.js de Codo a Codo
 Tienda de Pastelería
 
 ## Despliegue :package:
-***
+
 
 _En proceso de desarrollo_
 
 ## Base de Datos (DER)
-***
+
 <kbd>
   <image
     src="/database/der.jpg"
@@ -26,7 +26,6 @@ _En proceso de desarrollo_
 </kbd>  
 
 ## Instalación
-***
 
 Pasos requeridos
 
@@ -38,7 +37,6 @@ $ node index.js
 ```
 
 ## Construido Con :hammer_and_wrench:
-***
 
 <p>
   <a href="https://skillicons.dev">
@@ -47,7 +45,6 @@ $ node index.js
 </p>
 
 ## Autores :black_nib:
-***
 
 - Alicia Zuñega - [@alizunega](https://github.com/alizunega)
 - Jorge Varela - [@osvaldovarela](https://github.com/osvaldovarela)
