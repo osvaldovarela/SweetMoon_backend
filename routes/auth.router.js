@@ -8,7 +8,7 @@ const authMiddleware = require("../middlewares/auth.middleware");
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 
-router.get("/usuario", authMiddleware, (req, res) => {
+router.get("/protected", authMiddleware, (req, res) => {
   res.send(`Hola User ${req.userId}`);
 });
 

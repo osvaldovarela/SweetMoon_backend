@@ -1,103 +1,62 @@
-const db = require("../db/db.config");
+const userModel = require("../models/userModel");
+const { hashPassword } = require("../utils/hashPassword");
 
-// Traer todos los productos
-const index = (req, res) => {
-  const sql = "SELECT * FROM usuario";
-  db.query(sql, (error, result) => {
-    if (error) {
-      return res
-        .status(500)
-        .json({ error: "Error de servidor - Pruebe más tarde" });
-    }
-    res.json(result);
-  });
-};
-
-// Traer un producto por ID
-const show = (req, res) => {
+exports.find = async (req, res) => {
   const { id } = req.params;
 
-  const sql = "SELECT * FROM usuario WHERE id = ?";
-  db.query(sql, [id], (error, fila) => {
-    if (error) {
-      return res
-        .status(500)
-        .json({ error: "Error de servidor - Pruebe más tarde" });
-    }
-    if (fila.length == 0) {
-      return res.status(404).json({ error: "El usuario no existe." });
-    }
-    res.json(fila[0]);
-  });
+  try {
+    await userModel.find(id);
+    res.status(200).json({});
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "¡Error: No se pudo eliminar el usuario!", error });
+  }
 };
 
-// Agregar un nuevo producto
-const store = (req, res) => {
-  const { nombre, apellido, direccion, fecha_nacimiento, telefono, email } =
-    req.body;
-  const sql =
-    "INSERT INTO usuario (nombre, apellido, direccion, fecha_nacimiento, telefono, email) VALUES (?, ?, ?, ?, ?, ?)";
-  db.query(
-    sql,
-    [nombre, apellido, direccion, fecha_nacimiento, telefono, email],
-    (error, result) => {
-      if (error) {
-        return res
-          .status(500)
-          .json({ error: "Error de servidor - Pruebe más tarde" });
-      }
-      const user = { ...req.body, id: result.insertId };
-      res.json(user);
-    }
-  );
-};
-
-// Actualizar un producto por ID
-const update = (req, res) => {
+exports.update = async (req, res) => {
   const { id } = req.params;
-  const { nombre, apellido, direccion, fecha_nacimiento, telefono, email } =
-    req.body;
-  const sql =
-    "UPDATE usuario SET nombre = ?, apellido = ?, direccion = ?, fecha_nacimiento = ?, telefono = ?, email = ?  WHERE idusuario = ?";
-  db.query(
-    sql,
-    [nombre, apellido, direccion, fecha_nacimiento, telefono, email, id],
-    (error, result) => {
-      if (error) {
-        return res
-          .status(500)
-          .json({ error: "Error de servidor - Pruebe más tarde" });
-      }
-      if (result.affectedRows == 0) {
-        return res.status(404).json({ error: "Usuario no existe." });
-      }
-      const user = { ...req.body, id: id };
-      res.json(user);
+  const {
+    nombre,
+    apellido,
+    direccion,
+    fecha_nacimiento,
+    telefono,
+    email,
+    contraseña,
+  } = req.body;
+
+  try {
+    let hash;
+    if (contraseña) {
+      hash = await hashPassword(contraseña);
     }
-  );
+
+    await userModel.update(
+      id,
+      nombre,
+      apellido,
+      direccion,
+      fecha_nacimiento,
+      telefono,
+      email,
+      contraseña
+    );
+    res.status(200).json({ message: "Usuario modificado correctamente." });
+  } catch (error) {
+    res.status(500).json({ message: "Error al modificar usuario", error });
+  }
 };
 
-// Eliminar un producto por ID
-const destroy = (req, res) => {
+exports.destroy = async (req, res) => {
   const { id } = req.params;
-  const sql = "DELETE FROM usuario WHERE id = ?";
-  db.query(sql, [id], (error, result) => {
-    if (error) {
-      return res
-        .status(500)
-        .json({ error: "Error de servidor - Pruebe más tarde" });
-    }
-    if (result.affectedRows == 0) {
-      return res.status(404).json({ error: "El usuario no existe." });
-    }
-    res.json({ mensaje: `Usuario con id: ${id} eliminado` });
-  });
-};
 
-module.exports = {
-  index,
-  show,
-  store,
-  update,
-  destroy,
+  try {
+    await userModel.destroy(id);
+    res.status(200).json({ message: "¡Usuario eliminado!" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "¡Error: No se pudo eliminar el usuario!", error });
+  }
 };

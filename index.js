@@ -24,7 +24,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/productos", productRouter);
-app.use("/usuarios", userRouter);
+
+//deberia acceder con permisos
+app.use("/api", userRouter);
+
 app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
@@ -34,5 +37,5 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 8081;
 
 app.listen(PORT, () =>
-  console.log(`Servidor escuchando en http://127.0.0.1:${PORT}`)
+  console.log(`Servidor escuchando en http://localhost:${PORT}`)
 );

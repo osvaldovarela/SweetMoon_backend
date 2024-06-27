@@ -1,32 +1,56 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-const users = require("../models/users.model");
+const userModel = require("../models/users.model");
+const loginModel = require("../models/login.model");
 
 //creacion nuevo usuario
-const register = (req, res) => {
-  const { email, password } = req.body;
+const register = async (req, res) => {
+  const {
+    nombre,
+    apellido,
+    direccion,
+    fecha_nacimiento,
+    telefono,
+    email,
+    contraseña,
+  } = req.body;
+  try {
+    await db.beginTransaction();
 
-  const hash = bcrypt.hashSync(password, 8);
-  console.log(hash);
+    const usuario_id = await userModel.create(
+      nombre,
+      apellido,
+      direccion,
+      fecha_nacimiento,
+      telefono
+    );
+    const hash = bcrypt.hashSync(contraseña, 8);
+    console.log(hash);
 
-  const user = { id: Date.now(), email, password: hash };
+    //para ver si trae el valor que habia guardado
+    console.log(process.env.JWT_EXPIRE);
+    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
 
-  users.push(user);
+    await loginModel.cargarLogin(email, hash, usuario_id);
 
-  console.log(process.env.JWT_EXPIRE);
-  const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
+    await db.commit();
 
-  res.status(201).send({ auth: true, token });
+    res
+      .status(201)
+      .json({ auth: true, message: "Usuario registrado exitosamente", token });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 };
 
 //ingreso de usuario registrado
 const login = (req, res) => {
   const { email, password } = req.body;
 
-  const user = users.find((u) => u.email === email);
+  const user = userModel.find((u) => u.email === email);
 
   if (!user) return res.status(404).send("Usuario no encontrado.");
 
