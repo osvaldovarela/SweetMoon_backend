@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: mysql-estudiocac2024.alwaysdata.net
--- Tiempo de generación: 26-06-2024 a las 16:14:25
--- Versión del servidor: 10.6.17-MariaDB
--- Versión de PHP: 7.4.33
+-- Host: mysql-estudiocac2024.alwaysdata.net
+-- Generation Time: Jun 28, 2024 at 05:03 AM
+-- Server version: 10.6.17-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,36 +18,25 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `estudiocac2024_tienda_sm`
+-- Database: `estudiocac2024_tienda_sm`
 --
-CREATE DATABASE IF NOT EXISTS `estudiocac2024_tienda_sm` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `estudiocac2024_tienda_sm`;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `categoria`
+-- Table structure for table `categoria`
 --
 
 CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `categoria`
---
-
-INSERT INTO `categoria` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'tortas', 'tortas varias'),
-(2, 'postres', NULL),
-(3, 'tartas', 'tartas varias');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `detalle`
+-- Table structure for table `detalle`
 --
 
 CREATE TABLE `detalle` (
@@ -56,12 +45,12 @@ CREATE TABLE `detalle` (
   `precio` float DEFAULT NULL,
   `factura_id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `factura`
+-- Table structure for table `factura`
 --
 
 CREATE TABLE `factura` (
@@ -69,67 +58,51 @@ CREATE TABLE `factura` (
   `fecha` date DEFAULT NULL,
   `usuario_id` int(11) NOT NULL,
   `modo_pago_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `login`
+-- Table structure for table `login`
 --
 
 CREATE TABLE `login` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
   `contraseña` varchar(45) DEFAULT NULL,
   `usuario_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `modo_pago`
+-- Table structure for table `modo_pago`
 --
 
 CREATE TABLE `modo_pago` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `otros_detalles` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `producto`
+-- Table structure for table `producto`
 --
 
 CREATE TABLE `producto` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `precio` float DEFAULT NULL,
-  `stock` int(11) DEFAULT NULL,
-  `categoria_id` int(11) NOT NULL,
-  `urlfoto` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Disparadores `producto`
---
-DELIMITER $$
-CREATE TRIGGER `reset_auto_increment` BEFORE INSERT ON `producto` FOR EACH ROW BEGIN
-    DECLARE count_rows INT;
-    SELECT COUNT(*) INTO count_rows FROM producto;
-
-    IF count_rows = 0 THEN
-        SET NEW.id = 1;
-    END IF;
-END
-$$
-DELIMITER ;
+  `stock` float DEFAULT NULL,
+  `categoria_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
 CREATE TABLE `usuario` (
@@ -138,22 +111,21 @@ CREATE TABLE `usuario` (
   `apellido` varchar(45) DEFAULT NULL,
   `direccion` varchar(45) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
-  `telefono` varchar(12) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `telefono` varchar(12) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `categoria`
+-- Indexes for table `categoria`
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `detalle`
+-- Indexes for table `detalle`
 --
 ALTER TABLE `detalle`
   ADD PRIMARY KEY (`id`,`factura_id`),
@@ -161,7 +133,7 @@ ALTER TABLE `detalle`
   ADD KEY `fk_detalle_producto1_idx` (`producto_id`);
 
 --
--- Indices de la tabla `factura`
+-- Indexes for table `factura`
 --
 ALTER TABLE `factura`
   ADD PRIMARY KEY (`num_factura`),
@@ -169,103 +141,104 @@ ALTER TABLE `factura`
   ADD KEY `fk_factura_modo_pago1_idx` (`modo_pago_id`);
 
 --
--- Indices de la tabla `login`
+-- Indexes for table `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email_UNIQUE` (`email`),
   ADD KEY `fk_login_usuario1_idx` (`usuario_id`);
 
 --
--- Indices de la tabla `modo_pago`
+-- Indexes for table `modo_pago`
 --
 ALTER TABLE `modo_pago`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `producto`
+-- Indexes for table `producto`
 --
 ALTER TABLE `producto`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_producto_categoria1_idx` (`categoria_id`);
 
 --
--- Indices de la tabla `usuario`
+-- Indexes for table `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `categoria`
+-- AUTO_INCREMENT for table `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `detalle`
+-- AUTO_INCREMENT for table `detalle`
 --
 ALTER TABLE `detalle`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `factura`
+-- AUTO_INCREMENT for table `factura`
 --
 ALTER TABLE `factura`
   MODIFY `num_factura` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `login`
+-- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `modo_pago`
+-- AUTO_INCREMENT for table `modo_pago`
 --
 ALTER TABLE `modo_pago`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `producto`
+-- AUTO_INCREMENT for table `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `usuario`
+-- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `detalle`
+-- Constraints for table `detalle`
 --
 ALTER TABLE `detalle`
   ADD CONSTRAINT `fk_detalle_factura1` FOREIGN KEY (`factura_id`) REFERENCES `factura` (`num_factura`),
   ADD CONSTRAINT `fk_detalle_producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id`);
 
 --
--- Filtros para la tabla `factura`
+-- Constraints for table `factura`
 --
 ALTER TABLE `factura`
   ADD CONSTRAINT `fk_factura_modo_pago1` FOREIGN KEY (`modo_pago_id`) REFERENCES `modo_pago` (`id`),
   ADD CONSTRAINT `fk_factura_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
 
 --
--- Filtros para la tabla `login`
+-- Constraints for table `login`
 --
 ALTER TABLE `login`
-  ADD CONSTRAINT `fk_login_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `fk_login_usuario1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `producto`
+-- Constraints for table `producto`
 --
 ALTER TABLE `producto`
   ADD CONSTRAINT `fk_producto_categoria1` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`);
