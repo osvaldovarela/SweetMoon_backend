@@ -20,7 +20,7 @@ exports.authMiddleware = (req, res, next) => {
         .status(500)
         .send({ auth: false, message: "Falló al autenticar el token." });
 
-    req.body = decoded;
+    req.user = decoded;
 
     next();
   });

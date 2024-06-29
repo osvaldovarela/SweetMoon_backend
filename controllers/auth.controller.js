@@ -34,8 +34,10 @@ const register = async (req, res) => {
       expiresIn: process.env.JWT_EXPIRE,
     });
 
+    //llamada al metodo para insertar al login
     await loginModel.cargarLogin(email, hash, usuario_id);
 
+    //commit del cambio a la bd
     await db.commit();
 
     res
