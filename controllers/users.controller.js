@@ -20,47 +20,43 @@ exports.find = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { id } = req.params;
-  const {
-    nombre,
-    apellido,
-    direccion,
-    fecha_nacimiento,
-    telefono,
-    email,
-    contraseña,
-  } = req.body;
-
-  try {
-    let hash;
-    if (contraseña) {
-      hash = await bcrypt.hash(contraseña, 8, (err, res) => {
-        if (err) {
-          return res
-            .status(500)
-            .json({ error: "Error al generar el hash de la contraseña" });
-        }
-      });
-    }
-
-    await userModel.update(
-      id,
+  const user = await userModel.find(id);
+  if (!user) {
+    res.status(404).json({ message: "Usuario no encontrado" });
+  } else {
+    const {
       nombre,
       apellido,
       direccion,
       fecha_nacimiento,
-      telefono
-    );
-    res.status(200).json({ message: "Usuario modificado correctamente." });
-  } catch (error) {
-    res.status(500).json({ message: "Error al modificar usuario", error });
-  }
+      telefono,
+      email,
+      contraseña,
+    } = req.body;
 
-  await loginModel.updateLogin();
+    try {
+      await userModel.update(
+        id,
+        nombre,
+        apellido,
+        direccion,
+        fecha_nacimiento,
+        telefono
+      );
+      if (contraseña) {
+        const hash = bcrypt.hashSync(contraseña, 8);
+        await loginModel.updateLogin(id, email, hash);
+      }
+
+      res.status(200).json({ message: "Usuario modificado correctamente." });
+    } catch (error) {
+      res.status(500).json({ message: "Error al modificar usuario", error });
+    }
+  }
 };
 
 exports.destroy = async (req, res) => {
   const { id } = req.params;
-
   try {
     await userModel.destroy(id);
     res.status(200).json({ message: "¡Usuario eliminado!" });

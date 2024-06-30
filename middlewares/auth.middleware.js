@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 //middleware para verificar token
-exports.authMiddleware = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader)
@@ -27,7 +27,7 @@ exports.authMiddleware = (req, res, next) => {
 };
 
 //middleware para comprobar pertenencia
-exports.isOwner = (req, res, next) => {
+const isOwner = (req, res, next) => {
   const userId = req.params.id;
 
   if (req.user.id !== parseInt(userId)) {
@@ -35,4 +35,9 @@ exports.isOwner = (req, res, next) => {
   }
 
   next();
+};
+
+module.exports = {
+  authMiddleware,
+  isOwner,
 };

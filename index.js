@@ -22,13 +22,14 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+//ruta para pedidos
 app.use("/productos", productRouter);
+//ruta para registrarse y loguearse
+app.use("/auth", authRouter);
 
 //deberia acceder con permisos
+//rutas para CRUD
 app.use("/api", userRouter);
-
-app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Bienvenida/o a Tienda SweetMoon!!");

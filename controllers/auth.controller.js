@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const db = require("../db/db.config");
 
 const userModel = require("../models/users.model");
 const loginModel = require("../models/login.model");
@@ -16,7 +17,7 @@ const register = async (req, res) => {
     contraseña,
   } = req.body;
   try {
-    await db.beginTransaction();
+    await db.beginTransaction;
 
     const usuario_id = await userModel.create(
       nombre,
@@ -25,12 +26,13 @@ const register = async (req, res) => {
       fecha_nacimiento,
       telefono
     );
+
     const hash = bcrypt.hashSync(contraseña, 8);
     console.log(hash);
 
     //para ver si trae el valor que habia guardado
     console.log(process.env.JWT_EXPIRE);
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ id: usuario_id }, process.env.SECRET_KEY, {
       expiresIn: process.env.JWT_EXPIRE,
     });
 
@@ -38,35 +40,39 @@ const register = async (req, res) => {
     await loginModel.cargarLogin(email, hash, usuario_id);
 
     //commit del cambio a la bd
-    await db.commit();
+    await db.commit;
 
     res
       .status(201)
       .json({ auth: true, message: "Usuario registrado exitosamente", token });
   } catch (error) {
-    res.status(500).json({ error });
+    await db.rollback;
+    res.status(500).json({ error: error.stack });
   }
 };
 
 //ingreso de usuario registrado
-const login = (req, res) => {
+const login = async (req, res) => {
   const { email, password } = req.body;
+  try {
+    const user = await loginModel.find(email);
 
-  const user = userModel.find((u) => u.email === email);
+    if (!user) return res.status(404).send("Usuario no encontrado.");
 
-  if (!user) return res.status(404).send("Usuario no encontrado.");
+    const passwordIsValid = bcrypt.compareSync(password, user.password);
 
-  const passwordIsValid = bcrypt.compareSync(password, user.password);
+    if (!passwordIsValid) {
+      return res.status(401).send({ auth: false, token: null });
+    }
 
-  if (!passwordIsValid) {
-    return res.status(401).send({ auth: false, token: null });
+    const token = jwt.sign({ id: user.usuario_id }, process.env.SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPIRE,
+    });
+
+    res.send({ auth: true, message: "Usuario logueado exitosamente", token });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-
-  const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
-
-  res.send({ auth: true, token });
 };
 
 module.exports = {
