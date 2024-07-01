@@ -11,13 +11,7 @@ const productRouter = require("./routes/products.router");
 const userRouter = require("./routes/users.router");
 
 // Middleware para parsear el cuerpo de las peticiones
-const corsOptions = {
-  origin: "https://osvaldovarela.github.io/tienda_SweetMoon/", // URL del frontend que permites (puedes usar * para permitir cualquier origen)
-  methods: ["GET", "POST", "PUT", "DELETE"], // Métodos HTTP permitidos
-  allowedHeaders: ["Content-Type", "Authorization"], // Encabezados permitidos
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

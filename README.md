@@ -11,7 +11,7 @@ Tienda de Pastelería
 
 ## Despliegue :package:
 
-_En proceso de desarrollo_
+[BackEnd Tienda SweetMoon - Deploy en Vercel](https://sweet-moon-backend.vercel.app)
 
 ## Base de Datos (DER)
 
@@ -33,6 +33,11 @@ $ cd ../path/to/the/file
 $ npm install
 $ node index.js
 ```
+
+## Ejemplos para request
+
+[json productos](./ejemplo-carga-producto.json)
+[json usuarios](./ejemplo-carga-usuario.json)
 
 ## Construido Con :hammer_and_wrench:
 
