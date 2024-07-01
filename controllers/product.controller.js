@@ -1,7 +1,7 @@
 const db = require("../db/db.config");
 
 // Traer todos los productos
-const index = (req, res) => {
+const readAll = (req, res) => {
   const sql = "SELECT * FROM producto";
   db.query(sql, (error, result) => {
     if (error) {
@@ -14,7 +14,7 @@ const index = (req, res) => {
 };
 
 // Traer un producto por ID
-const show = (req, res) => {
+const readOne = (req, res) => {
   const { id } = req.params;
   const sql = "SELECT * FROM producto WHERE id = ?";
   db.query(sql, [id], (error, fila) => {
@@ -31,13 +31,13 @@ const show = (req, res) => {
 };
 
 // Agregar un nuevo producto
-const store = (req, res) => {
-  const { nombre, precio, stock, categoria_id, urlfoto } = req.body;
+const create = (req, res) => {
+  const { nombre, precio, stock, urlfoto, categoria_id } = req.body;
   const sql =
-    "INSERT INTO producto (nombre, precio, stock, categoria_id, urlfoto) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO producto (nombre, precio, stock, urlfoto, categoria_id) VALUES (?, ?, ?, ?, ?)";
   db.query(
     sql,
-    [nombre, precio, stock, categoria_id, urlfoto],
+    [nombre, precio, stock, urlfoto, categoria_id],
     (error, result) => {
       if (error) {
         return res
@@ -51,14 +51,14 @@ const store = (req, res) => {
 };
 
 // Actualizar un producto por ID
-const update = (req, res) => {
+const updateOne = (req, res) => {
   const { id } = req.params;
-  const { nombre, precio, stock, categoria_id, urlfoto } = req.body;
+  const { nombre, precio, stock, urlfoto, categoria_id } = req.body;
   const sql =
-    "UPDATE producto SET nombre = ?, precio = ?, stock = ?, categoria_id = ?, urlfoto = ? WHERE id = ?";
+    "UPDATE producto SET nombre = ?, precio = ?, stock = ?, urlfoto = ?, categoria_id = ? WHERE id = ?";
   db.query(
     sql,
-    [nombre, precio, stock, categoria_id, urlfoto, id],
+    [nombre, precio, stock, urlfoto, categoria_id, id],
     (error, result) => {
       if (error) {
         return res
@@ -75,9 +75,18 @@ const update = (req, res) => {
 };
 
 // Eliminar un producto por ID
-const destroy = (req, res) => {
-  const { id } = req.params;
-  const sql = "DELETE FROM producto WHERE id = ?";
+const deleteOne = (req, res) => {
+  const { id } = req.params || {};
+  console.log("id: ", id);
+
+  if (!id) {
+    return res
+      .status(400)
+      .json({ error: "Id no recibido. Ingrese un Id válido" });
+  }
+
+  const sql = `DELETE FROM producto WHERE id = ?`;
+
   db.query(sql, [id], (error, result) => {
     if (error) {
       return res
@@ -92,9 +101,9 @@ const destroy = (req, res) => {
 };
 
 module.exports = {
-  index,
-  show,
-  store,
-  update,
-  destroy,
+  readAll,
+  readOne,
+  create,
+  updateOne,
+  deleteOne,
 };

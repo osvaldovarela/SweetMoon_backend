@@ -12,7 +12,9 @@ connection.connect((error) => {
     return console.error(error.stack);
   }
 
-  console.log("Conectado a la base de datos en AlwaysData");
+  console.log(
+    `Conectado a la base de datos ${process.env.DB_HOST}: ${process.env.DB_NAME}`
+  );
 });
 
 module.exports = connection;

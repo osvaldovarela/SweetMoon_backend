@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-estudiocac2024.alwaysdata.net
--- Generation Time: Jun 28, 2024 at 05:03 AM
+-- Generation Time: Jul 01, 2024 at 03:19 AM
 -- Server version: 10.6.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -31,7 +31,16 @@ CREATE TABLE `categoria` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `descripcion` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categoria`
+--
+
+INSERT INTO `categoria` (`id`, `nombre`, `descripcion`) VALUES
+(1, 'tortas', 'tortas varias'),
+(2, 'postres', 'Postres varios'),
+(3, 'tartas', 'tartas varias');
 
 -- --------------------------------------------------------
 
@@ -45,7 +54,7 @@ CREATE TABLE `detalle` (
   `precio` float DEFAULT NULL,
   `factura_id` int(11) NOT NULL,
   `producto_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -58,7 +67,7 @@ CREATE TABLE `factura` (
   `fecha` date DEFAULT NULL,
   `usuario_id` int(11) NOT NULL,
   `modo_pago_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -69,9 +78,9 @@ CREATE TABLE `factura` (
 CREATE TABLE `login` (
   `id` int(11) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
-  `contraseña` varchar(45) DEFAULT NULL,
+  `contraseña` varchar(255) DEFAULT NULL,
   `usuario_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -83,7 +92,7 @@ CREATE TABLE `modo_pago` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `otros_detalles` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -95,9 +104,24 @@ CREATE TABLE `producto` (
   `id` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
   `precio` float DEFAULT NULL,
-  `stock` float DEFAULT NULL,
+  `stock` int(11) DEFAULT NULL,
+  `urlfoto` varchar(100) NOT NULL,
   `categoria_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Triggers `producto`
+--
+DELIMITER $$
+CREATE TRIGGER `before_insert_producto` BEFORE INSERT ON `producto` FOR EACH ROW BEGIN
+        DECLARE count_rows INT;
+		SELECT COUNT(*) INTO count_rows FROM producto;
+		IF count_rows = 0 THEN
+			SET NEW.id = 1;
+		END IF;
+    END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -112,7 +136,7 @@ CREATE TABLE `usuario` (
   `direccion` varchar(45) DEFAULT NULL,
   `fecha_nacimiento` date DEFAULT NULL,
   `telefono` varchar(12) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -175,7 +199,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `detalle`
@@ -205,7 +229,7 @@ ALTER TABLE `modo_pago`
 -- AUTO_INCREMENT for table `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `usuario`
