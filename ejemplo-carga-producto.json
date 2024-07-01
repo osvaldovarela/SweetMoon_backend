@@ -1,0 +1,7 @@
+{
+    "nombre": "Arrollado de Matcha",
+    "precio": 15000.00,
+    "stock": 8,
+    "urlfoto": "url de imagenes en ./src/data/linksimg.txt",
+    "categoria_id": 2
+}
