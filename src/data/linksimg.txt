@@ -1,0 +1,44 @@
+lista imagenes productos
+
+https://i.postimg.cc/SxVjZ539/arrollado-matcha.jpg
+https://i.postimg.cc/hjNXLdw3/baba-au-rhum-con-crema.jpg
+https://i.postimg.cc/L6KqhjjJ/bavaroise.jpg
+https://i.postimg.cc/HLZcLKtm/carrot-cake.jpg
+https://i.postimg.cc/ZYyBTwvk/cheesecake.jpg
+https://i.postimg.cc/xCNC1dCG/eclair-ferrero.jpg
+https://i.postimg.cc/903fRjR6/eclair-ferrero-abierto.jpg
+https://i.postimg.cc/zvnGTPTV/eclair-key-pie.jpg
+https://i.postimg.cc/KcLjX4Cx/eclair-key-pie-abierto.jpg
+https://i.postimg.cc/PqxJ0ynR/eclair-maracuya.jpg
+https://i.postimg.cc/7LWh4zxY/eclair-maracuya-partido.jpg
+https://i.postimg.cc/HkWk7znk/flan-con-ddl.jpg
+https://i.postimg.cc/XYWy19vR/lemon-pie.jpg
+https://i.postimg.cc/pV98m276/macarons.jpg
+https://i.postimg.cc/TwKy59kD/panna-cotta.jpg
+https://i.postimg.cc/3rPGpsQJ/pavlova.jpg
+https://i.postimg.cc/gkVxhrKN/pera-al-vino-tinto.jpg
+https://i.postimg.cc/13yfrPCP/petit-gateau.jpg
+https://i.postimg.cc/Bt9J65y4/sabayon-oporto.jpg
+https://i.postimg.cc/yYyNdtVG/torta-bizcochuelo.jpg
+https://i.postimg.cc/MKVQY9z0/torta-brownie.jpg
+https://i.postimg.cc/28D6Crfv/torta-desnuda.jpg
+https://i.postimg.cc/0jmbcN15/torta-masa-sable.jpg
+https://i.postimg.cc/s2DGsy7K/volcan-chocolate.jpg
+https://i.postimg.cc/vZvxJDgc/volcan-chocolate-abierto.jpg
+
+
+https://i.postimg.cc/52PN5zQq/slide1.jpg
+https://i.postimg.cc/3wdrtwgM/slide2.jpg
+
+
+nombre, apellido, email, telefono, direccion, username, pass, rol
+,{
+    "nombre": "Nombre",
+    "apellido": "Apellido",
+    "email": "user1_email@website.com",
+    "telefono": 88899989,
+    "direccion": "Su casita",
+    "username": "username",
+    "pass": "lapassword",
+    "rol": "2"
+}
