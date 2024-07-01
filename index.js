@@ -31,6 +31,4 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 8081;
 
-app.listen(PORT, () =>
-  console.log(`Servidor escuchando en http://localhost:${PORT}`)
-);
+app.listen(PORT, () => console.log(`https://sweet-moon-backend.vercel.app/`));
