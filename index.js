@@ -26,6 +26,7 @@ const corsOptions = {
       callback(new Error("Not allowed by CORS")); // Denegar solicitud
     }
   },
+  credentials: true, // Habilitar el envío de cookies},
 };
 
 // Aplicar el middleware CORS a todas las rutas
