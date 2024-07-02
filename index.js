@@ -7,11 +7,29 @@ const app = express();
 app.disable("x-powered-bi");
 const bodyParser = require("body-parser");
 
+//origenes permitidos
+const whiteList = [
+  "http://localhost:8080",
+  "https://osvaldovarela.github.io/tienda_SweetMoon",
+];
+
 const productRouter = require("./routes/products.router");
 const userRouter = require("./routes/users.router");
 
-// Middleware para parsear el cuerpo de las peticiones
-app.use(cors());
+// Opciones de configuración para el middleware CORS
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Verificar si el origen de la solicitud está en la lista blanca
+    if (whiteList.indexOf(origin) !== -1 || !origin) {
+      callback(null, true); // Permitir solicitud
+    } else {
+      callback(new Error("Not allowed by CORS")); // Denegar solicitud
+    }
+  },
+};
+
+// Aplicar el middleware CORS a todas las rutas
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
