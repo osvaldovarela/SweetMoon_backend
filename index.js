@@ -13,24 +13,19 @@ const whiteList = [
   "https://osvaldovarela.github.io/tienda_SweetMoon",
 ];
 
+// Opciones de configuración para el middleware CORS
+const corsOpts = {
+  origin: "*",
+
+  methods: ["GET", "POST"],
+
+  allowedHeaders: ["Content-Type"],
+};
+// Aplicar el middleware CORS a todas las rutas
+app.use(cors(corsOpts));
+
 const productRouter = require("./routes/products.router");
 const userRouter = require("./routes/users.router");
-
-// Opciones de configuración para el middleware CORS
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Verificar si el origen de la solicitud está en la lista blanca
-    if (whiteList.indexOf(origin) !== -1 || !origin) {
-      callback(null, true); // Permitir solicitud
-    } else {
-      callback(new Error("Not allowed by CORS")); // Denegar solicitud
-    }
-  },
-  credentials: true, // Habilitar el envío de cookies},
-};
-
-// Aplicar el middleware CORS a todas las rutas
-app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
