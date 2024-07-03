@@ -16,9 +16,7 @@ const whiteList = [
 // Opciones de configuración para el middleware CORS
 const corsOpts = {
   origin: "*",
-
   methods: ["GET", "POST"],
-
   allowedHeaders: ["Content-Type"],
 };
 // Aplicar el middleware CORS a todas las rutas
