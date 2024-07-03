@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql-estudiocac2024.alwaysdata.net
--- Generation Time: Jul 01, 2024 at 03:19 AM
+-- Generation Time: Jul 03, 2024 at 03:27 PM
 -- Server version: 10.6.17-MariaDB
 -- PHP Version: 7.4.33
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `estudiocac2024_tienda_sm`
 --
+CREATE DATABASE IF NOT EXISTS `estudiocac2024_tienda_sm` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `estudiocac2024_tienda_sm`;
 
 -- --------------------------------------------------------
 
@@ -82,6 +84,20 @@ CREATE TABLE `login` (
   `usuario_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Triggers `login`
+--
+DELIMITER $$
+CREATE TRIGGER `before_insert_usuario` BEFORE INSERT ON `login` FOR EACH ROW BEGIN
+    DECLARE count_rows INT;
+    SELECT COUNT(*) INTO count_rows FROM login;
+    IF count_rows = 0 THEN
+        SET NEW.id = 1;
+    END IF;
+END
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +124,20 @@ CREATE TABLE `producto` (
   `urlfoto` varchar(100) NOT NULL,
   `categoria_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `producto`
+--
+
+INSERT INTO `producto` (`id`, `nombre`, `precio`, `stock`, `urlfoto`, `categoria_id`) VALUES
+(1, 'Arrollado de Matcha', 15500, 10, 'https://i.postimg.cc/SxVjZ539/arrollado-matcha.jpg', 2),
+(6, 'Pavlova', 25000, 7, 'https://i.postimg.cc/3rPGpsQJ/pavlova.jpg', 2),
+(7, 'Macarons', 10000, 20, 'https://i.postimg.cc/pV98m276/macarons.jpg', 2),
+(8, 'Sabayón de oporto', 15000, 11, 'https://i.postimg.cc/Bt9J65y4/sabayon-oporto.jpg', 2),
+(9, 'Carrot cake', 28000, 9, 'https://i.postimg.cc/HLZcLKtm/carrot-cake.jpg', 2),
+(10, 'Pera al vino tinto', 18000, 5, 'https://i.postimg.cc/gkVxhrKN/pera-al-vino-tinto.jpg', 2),
+(11, 'Cheesecake', 25000, 5, 'https://i.postimg.cc/ZYyBTwvk/cheesecake.jpg', 2),
+(12, 'Petit gateau', 18000, 7, 'https://i.postimg.cc/13yfrPCP/petit-gateau.jpg', 2);
 
 --
 -- Triggers `producto`
@@ -137,6 +167,20 @@ CREATE TABLE `usuario` (
   `fecha_nacimiento` date DEFAULT NULL,
   `telefono` varchar(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Triggers `usuario`
+--
+DELIMITER $$
+CREATE TRIGGER `before_create_user` BEFORE INSERT ON `usuario` FOR EACH ROW BEGIN
+            DECLARE count_rows INT;
+            SELECT COUNT(*) INTO count_rows FROM usuario;
+                IF count_rows = 0 THEN
+                SET NEW.id = 1;
+                END IF;
+    	 END
+$$
+DELIMITER ;
 
 --
 -- Indexes for dumped tables
@@ -229,7 +273,7 @@ ALTER TABLE `modo_pago`
 -- AUTO_INCREMENT for table `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `usuario`
