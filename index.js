@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 
 const productRouter = require("./routes/products.router");
 const userRouter = require("./routes/users.router");
+const authRouter = require("./routes/auth.router");
 
 // Middleware para parsear el cuerpo de las peticiones
 const corsOptions = {
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/productos", productRouter);
 app.use("/usuarios", userRouter);
+app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Bienvenida/o a Tienda SweetMoon!!");
